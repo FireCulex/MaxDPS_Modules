@@ -22,7 +22,6 @@ local Paladin = MaxDps:NewModule('Paladin');
 	local _HolyConsecration = 26573;
 	local _HolyConsecrationAura = 204242;
 	
-	
 -- General
 
 function Paladin:Enable()
@@ -39,27 +38,21 @@ end
 
 function Paladin:Holy(timeShift, currentSpell, gcd, talents)
 
-	local j, jCD = MaxDps:SpellAvailable(_JudgementHoly, timeShift);
-	local crus, crusCD = MaxDps:SpellAvailable(_CrusaderStrike, timeShift);
-	local hshock, hshockCD = MaxDps:SpellAvailable(_HolyShock, timeShift);
-    local hcons, hconsCD = MaxDps:SpellAvailable(_HolyConsecration, timeShift); 
-
-
-   if j then
+   if MaxDps:SpellAvailable(_JudgementHoly, timeShift) then
         return _JudgementHoly;
     end
 	
-	if crus then
+	if MaxDps:SpellAvailable(_CrusaderStrike, timeShift) then
 		return _CrusaderStrike;
 	end
 
-	if hshock then
+	if MaxDps:SpellAvailable(_HolyShock, timeShift) then
 		return _HolyShock;
-		end
+	end
 		
-			if hcons and not MaxDps:TargetAura(_HolyConsecrationAura, timeShift) then
+	if MaxDps:SpellAvailable(_HolyConsecration, timeShift) and not MaxDps:TargetAura(_HolyConsecrationAura, timeShift) then
 		return _HolyConsecration;
-		end
+	end
 end
 
 function Paladin:Protection(timeShift, currentSpell, gcd, talents)
@@ -75,45 +68,38 @@ function Paladin:Retribution(timeShift, currentSpell, gcd, talents)
     local tgtPctHp = MaxDps:TargetPercentHealth();
 	local execPct = 0.2;
     local holyPower = UnitPower('player', Enum.PowerType.HolyPower);
-    local jAura, jAuraCD = MaxDps:TargetAura(_Judgment, timeShift + 0.5);
-    local j, jCD = MaxDps:SpellAvailable(_Judgment, timeShift);
-    local _, crusadeCD = MaxDps:SpellAvailable(_Crusade, timeShift);
-    local crus, crusCD = MaxDps:SpellAvailable(crusStrike, timeShift);
-    local boj, bojCD = MaxDps:SpellAvailable(_BladeofJustice, timeShift);
-	local ham, hamCD = MaxDps:SpellAvailable(_HammerofWrath, timeShift);
-
- 
-      MaxDps:GlowCooldown(_ShieldofVengeance, MaxDps:SpellAvailable(_ShieldofVengeance, timeShift));
+      
+	MaxDps:GlowCooldown(_ShieldofVengeance, MaxDps:SpellAvailable(_ShieldofVengeance, timeShift));
  
     if talents[_Crusade] then
         MaxDps:GlowCooldown(_Crusade, MaxDps:SpellAvailable(_Crusade, timeShift));
     end
  
- if talents[_WakeofAshes] and holyPower<=1 and MaxDps:SpellAvailable(_WakeofAshes, timeShift) then
- return _WakeofAshes;
- end
+	if talents[_WakeofAshes] and holyPower<=1 and MaxDps:SpellAvailable(_WakeofAshes, timeShift) then
+	return _WakeofAshes;
+	end
  
- if talents[_Inquisition] and holyPower>1 and not MaxDps:Aura(_Inquisition, timeShift) then
+	if talents[_Inquisition] and holyPower>1 and not MaxDps:Aura(_Inquisition, timeShift) then
         return _Inquisition;
     end
  
- if talents[_ExecutionSentence] and MaxDps:SpellAvailable(_ExecutionSentence, timeShift) and holyPower >= 3 then
- return _ExecutionSentence;
- end
+	if talents[_ExecutionSentence] and MaxDps:SpellAvailable(_ExecutionSentence, timeShift) and holyPower >= 3 then
+	return _ExecutionSentence;
+	end
 		
      if holyPower >= 5 then
         return _TemplarsVerdict;
     end
 	
- if  ham and holyPower <=4 and tgtPctHp < execPct then
+	if MaxDps:SpellAvailable(_HammerofWrath, timeShift) and holyPower <=4 and tgtPctHp < execPct then
 		return _HammerofWrath;
 	end
 		
-    if boj and holyPower <= 3 then
+    if MaxDps:SpellAvailable(_BladeofJustice, timeShift) and holyPower <= 3 then
         return _BladeofJustice;
     end
  
-    if j and holyPower <= 4 then
+    if MaxDps:SpellAvailable(_Judgment, timeShift) and holyPower <= 4 then
         return _Judgment;
     end
  
@@ -121,7 +107,7 @@ function Paladin:Retribution(timeShift, currentSpell, gcd, talents)
         return _Consecration;
     end
 
-    if crus and holyPower <= 4 then
+    if MaxDps:SpellAvailable(crusStrike, timeShift) and holyPower <= 4 then
         return crusStrike;
     end
 
