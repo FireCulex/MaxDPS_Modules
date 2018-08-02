@@ -5,14 +5,14 @@ end
 
 local Paladin = MaxDps:NewModule('Paladin');
 -- Spells
-    local _TemplarsVerdict = 85256;
-    local _Judgment = 20271;
-    local _CrusaderStrike = 35395;
-    local _BladeofJustice = 184575;
-    local _Crusade = 231895;
-    local _ShieldofVengeance = 184662;
-    local _Zeal = 217020;
-    local _Consecration = 205228;
+	local _TemplarsVerdict = 85256;
+	local _Judgment = 20271;
+	local _CrusaderStrike = 35395;
+	local _BladeofJustice = 184575;
+	local _Crusade = 231895;
+	local _ShieldofVengeance = 184662;
+	local _Zeal = 217020;
+	local _Consecration = 205228;
 	local _HammerofWrath = 24275;
 	local _Inquisition = 84963;
 	local _ExecutionSentence = 267798;
@@ -26,6 +26,7 @@ local Paladin = MaxDps:NewModule('Paladin');
 
 function Paladin:Enable()
 	MaxDps:Print(MaxDps.Colors.Info .. 'Paladin [Holy, Protection, Retribution]');	
+	
 	if MaxDps.Spec == 1 then
 		MaxDps.NextSpell = Paladin.Holy;
 	elseif MaxDps.Spec == 2 then
@@ -38,9 +39,9 @@ end
 
 function Paladin:Holy(timeShift, currentSpell, gcd, talents)
 
-   if MaxDps:SpellAvailable(_JudgementHoly, timeShift) then
-        return _JudgementHoly;
-    end
+	if MaxDps:SpellAvailable(_JudgementHoly, timeShift) then
+		return _JudgementHoly;
+	end
 	
 	if MaxDps:SpellAvailable(_CrusaderStrike, timeShift) then
 		return _CrusaderStrike;
@@ -56,61 +57,60 @@ function Paladin:Holy(timeShift, currentSpell, gcd, talents)
 end
 
 function Paladin:Protection(timeShift, currentSpell, gcd, talents)
+
 end
 
 function Paladin:Retribution(timeShift, currentSpell, gcd, talents)
   
-    local crusStrike = _CrusaderStrike;
-    if talents[_Zeal] then
-        crusStrike = _Zeal;
-    end
+	local crusStrike = _CrusaderStrike;
+	if talents[_Zeal] then
+		crusStrike = _Zeal;
+	end
  
-    local tgtPctHp = MaxDps:TargetPercentHealth();
+	local tgtPctHp = MaxDps:TargetPercentHealth();
 	local execPct = 0.2;
-    local holyPower = UnitPower('player', Enum.PowerType.HolyPower);
+	local holyPower = UnitPower('player', Enum.PowerType.HolyPower);
       
 	MaxDps:GlowCooldown(_ShieldofVengeance, MaxDps:SpellAvailable(_ShieldofVengeance, timeShift));
  
-    if talents[_Crusade] then
-        MaxDps:GlowCooldown(_Crusade, MaxDps:SpellAvailable(_Crusade, timeShift));
-    end
+	if talents[_Crusade] then
+		MaxDps:GlowCooldown(_Crusade, MaxDps:SpellAvailable(_Crusade, timeShift));
+	end
  
 	if talents[_WakeofAshes] and holyPower<=1 and MaxDps:SpellAvailable(_WakeofAshes, timeShift) then
-	return _WakeofAshes;
+		return _WakeofAshes;
 	end
  
 	if talents[_Inquisition] and holyPower>1 and not MaxDps:Aura(_Inquisition, timeShift) then
-        return _Inquisition;
-    end
+		return _Inquisition;
+	end
  
 	if talents[_ExecutionSentence] and MaxDps:SpellAvailable(_ExecutionSentence, timeShift) and holyPower >= 3 then
-	return _ExecutionSentence;
+		return _ExecutionSentence;
 	end
 		
-     if holyPower >= 5 then
-        return _TemplarsVerdict;
-    end
+	if holyPower >= 5 then
+		return _TemplarsVerdict;
+	end
 	
 	if MaxDps:SpellAvailable(_HammerofWrath, timeShift) and holyPower <=4 and tgtPctHp < execPct then
 		return _HammerofWrath;
 	end
 		
-    if MaxDps:SpellAvailable(_BladeofJustice, timeShift) and holyPower <= 3 then
-        return _BladeofJustice;
-    end
+	if MaxDps:SpellAvailable(_BladeofJustice, timeShift) and holyPower <= 3 then
+		return _BladeofJustice;
+	end
  
-    if MaxDps:SpellAvailable(_Judgment, timeShift) and holyPower <= 4 then
-        return _Judgment;
-    end
+	if MaxDps:SpellAvailable(_Judgment, timeShift) and holyPower <= 4 then
+		return _Judgment;
+	end
  
-    if talents[_Consecration] and MaxDps:SpellAvailable(_Consecration, timeShift) and holyPower <=4 then
-        return _Consecration;
-    end
+	if talents[_Consecration] and MaxDps:SpellAvailable(_Consecration, timeShift) and holyPower <=4 then
+		return _Consecration;
+	end
 
-    if MaxDps:SpellAvailable(crusStrike, timeShift) and holyPower <= 4 then
-        return crusStrike;
-    end
+	if MaxDps:SpellAvailable(crusStrike, timeShift) and holyPower <= 4 then
+		return crusStrike;
+	end
 
 end
-
-	
