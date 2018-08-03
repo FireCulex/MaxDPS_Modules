@@ -21,6 +21,11 @@ local Paladin = MaxDps:NewModule('Paladin');
 	local _HolyShock = 20473;
 	local _HolyConsecration = 26573;
 	local _HolyConsecrationAura = 204242;
+	local _ProtJudgement = 275779;
+	local _AvengersShield = 31935;
+	local _HammerRight = 53595;
+	local _BlessedHammer = 204019;
+	local _ShieldRightous = 53600;
 	
 -- General
 
@@ -58,6 +63,31 @@ end
 
 function Paladin:Protection(timeShift, currentSpell, gcd, talents)
 
+	if MaxDps:SpellAvailable(_ShieldRightous, timeShift) then
+		return _ShieldRightous;
+	end
+
+
+	if MaxDps:SpellAvailable(_HolyConsecration, timeShift) and not MaxDps:TargetAura(_HolyConsecrationAura, timeShift) then
+		return _HolyConsecration;
+	end
+	
+	if MaxDps:SpellAvailable(_ProtJudgement, timeShift) then
+		return _ProtJudgement;
+	end
+	
+	if MaxDps:SpellAvailable(_AvengersShield, timeShift) then
+		return _AvengersShield;
+	end
+
+	if not talents[_BlessedHammer] and MaxDps:SpellAvailable(_HammerRight, timeShift) then
+		return _HammerRight;
+	end
+	
+	if talents[_BlessedHammer] and MaxDps:SpellAvailable(_BlessedHammer, timeShift) then
+		return _BlessedHammer;
+	end
+	
 end
 
 function Paladin:Retribution(timeShift, currentSpell, gcd, talents)
