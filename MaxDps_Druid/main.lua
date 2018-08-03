@@ -14,6 +14,7 @@ local Druid = MaxDps:NewModule('Druid');
 	local _BalanceWrath = 190984;
 	local _LunarStrike = 194153;
 	local _LunarEmpowerment = 164547;
+	local _SolarEmpowerment = 164545;
 	
 -- General
 
@@ -44,9 +45,15 @@ local astralPower = UnitPower('player', Enum.PowerType.LunarPower);
 		return _Sunfire;
 	end
 
-	if astralPower >=80 and MaxDps:SpellAvailable(_StarSurge, timeShift) then
+	if astralPower >40 and MaxDps:SpellAvailable(_StarSurge, timeShift) then
 		return _StarSurge;
 	end
+	
+	
+	if MaxDps:Aura(_SolarEmpowerment, timeShift) then
+		return _BalanceWrath;
+	end
+	
 	
 	if MaxDps:Aura(_LunarEmpowerment, timeShift) then
 		return _LunarStrike;
