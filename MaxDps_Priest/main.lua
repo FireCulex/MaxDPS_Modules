@@ -5,7 +5,19 @@ end
 
 local Priest = MaxDps:NewModule('Priest');
 -- Spells
-		
+	local _Shield = 17;
+	local _Penance = 47540;
+	local _Solace = 129250;
+	local _Smite = 585;
+	local _Schism = 214621;
+	local _Pain = 589;
+	local _VoidEruption = 228260;
+	local _VampiricTouch = 34914;
+	local _MindBlast = 8092;
+	local _WordVoid = 205351;
+	local _DarkVoid = 263346;
+	
+	
 -- General
 
 function Priest:Enable()
@@ -21,16 +33,69 @@ function Priest:Enable()
 	return true;
 end
 
-function Priest.Discipline(timeShift, currentSpell, gcd, talents)
+function Priest:Discipline(timeShift, currentSpell, gcd, talents)
+
+--	if not MaxDps:Aura(_Shield, timeShift) then
+--		return _Shield;
+--	end
+	
+	if not MaxDps:TargetAura(_Pain, timeShift) then
+		return _Pain;
+	end
+	
+	if talents[_Schism] and MaxDps:SpellAvailable(_Schism, timeShift) then
+	return _Schism;
+	end
+
+
+	if MaxDps:SpellAvailable(_Penance, timeShift) then
+	return _Penance;
+	end
+
+	if talents[_Solace] and MaxDps:SpellAvailable(_Solace, timeShift) then
+		return _Solace;
+	end
+
+	if MaxDps:SpellAvailable(_Smite, timeShift) then
+		return _Smite;
+	end
+	
+	
+end
+
+function Priest:Holy(timeShift, currentSpell, gcd, talents)
 
 end
 
-function Priest.Holy(timeShift, currentSpell, gcd, talents)
+function Priest:Shadow(timeShift, currentSpell, gcd, talents)
 
-end
-
-function Priest.Shadow(timeShift, currentSpell, gcd, talents)
-
+	local insanity = UnitPower('player', Enum.PowerType.Insanity);
+	
+	if insanity == 100 and MaxDps:SpellAvailable(_VoidEruption, timeShift) then
+		return _VoidEruption;
+	end
+	
+	if not MaxDps:TargetAura(_Pain, timeShift) then
+		return _Pain;
+	end
+	
+	if not MaxDps:TargetAura(_VampiricTouch, timeShift) then
+		return _VampiricTouch;
+	end
+	
+	if not talents[_WordVoid] and MaxDps:SpellAvailable(_MindBlast, timeShift) then
+		return _MindBlast;
+	end
+	
+	if talents[_WordVoid] and MaxDps:SpellAvailable(_WordVoid, timeShift) then
+		return _WordVoid;
+	end
+	
+	if talents[_DarkVoid] and MaxDps:SpellAvailable(_DarkVoid, timeShift) then
+		return _DarkVoid;
+	end
+	
+	
 end
 
 
