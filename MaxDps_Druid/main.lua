@@ -20,6 +20,13 @@ local Druid = MaxDps:NewModule('Druid');
 	local _GalacticGuard = 213708;
 	local _Swipe = 213771;
 	local _Maul = 6807;
+	local _Lunar_Insp = 155580;
+	local _Feral_Moonfire = 155625;
+	local _Rake = 1822;
+	local _Rake_Dot = 155722;
+	local _Shred = 5221;
+	local _Bite = 22568;
+	local _Rip = 1079;
 	
 -- General
 
@@ -72,7 +79,36 @@ end
 
 function Druid:Feral(timeShift, currentSpell, gcd, talents)
 
+	local energy = UnitPower('player', Enum.PowerType.Energy);
+	local cp = UnitPower('player', Enum.PowerType.ComboPoints);
+	
+	if energy >= 30 and talents[_Lunar_Insp] and not MaxDps:TargetAura(_Feral_Moonfire, timeShift) then
+		return _Feral_Moonfire;
+	end
+	
+	if energy >=35 and not MaxDps:TargetAura(_Rake_Dot, timeShift) then
+		return _Rake;
+	end
+	
+	if energy >=25 and cp == 5 and MaxDps:SpellAvailable(_Bite, timeShift) and MaxDps:TargetPercentHealth() <= 0.25 then
+		return _Bite;
+	end
+	
+	if energy >=30 and cp == 5 and not MaxDps:TargetAura(_Rip, timeShift) and MaxDps:TargetPercentHealth() > 0.25 then
+		return _Rip;
+	end
+	
+	if energy >=25 and cp == 5 and MaxDps:SpellAvailable(_Bite, timeShift) then
+		return _Bite;
+	end
+	
+	if energy >=40 and MaxDps:SpellAvailable(_Shred, timeShift) then
+		return _Shred;
+	end
+
+	
 end
+
 
 function Druid:Guardian(timeShift, currentSpell, gcd, talents)
 
