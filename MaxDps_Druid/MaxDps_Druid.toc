@@ -1,0 +1,8 @@
+## Title: MaxDps_Druid
+## Version: 
+## Author: FireCulex
+## Interface: 70300
+## Dependencies: MaxDps
+## LoadOnDemand: 1
+
+main.lua
