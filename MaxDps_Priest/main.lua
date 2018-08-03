@@ -16,6 +16,9 @@ local Priest = MaxDps:NewModule('Priest');
 	local _MindBlast = 8092;
 	local _WordVoid = 205351;
 	local _DarkVoid = 263346;
+	local _HolyFire = 14914;
+	local _HolyNova = 132157;
+	local _HolyChastise = 88625;
 	
 	
 -- General
@@ -65,6 +68,23 @@ end
 
 function Priest:Holy(timeShift, currentSpell, gcd, talents)
 
+	if MaxDps:SpellAvailable(_HolyFire, timeShift) then
+		return _HolyFire;
+	end
+
+--	if MaxDps:SpellAvailable(_HolyNova, timeShift) then
+--		return _HolyNova;
+--	end
+	
+	if MaxDps:SpellAvailable(_HolyChastise, timeShift) then
+		return _HolyChastise;
+	end
+
+	if MaxDps:SpellAvailable(_Smite, timeShift) then
+		return _Smite;
+	end
+
+	
 end
 
 function Priest:Shadow(timeShift, currentSpell, gcd, talents)
