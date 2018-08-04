@@ -98,7 +98,7 @@ function Paladin:Retribution(timeShift, currentSpell, gcd, talents)
 	end
 
 	local holyPower = UnitPower('player', Enum.PowerType.HolyPower);
-      
+		    
 	MaxDps:GlowCooldown(_ShieldofVengeance, MaxDps:SpellAvailable(_ShieldofVengeance, timeShift));
  
 	if talents[_Crusade] then
@@ -121,7 +121,7 @@ function Paladin:Retribution(timeShift, currentSpell, gcd, talents)
 		return _TemplarsVerdict;
 	end
 	
-	if MaxDps:SpellAvailable(_HammerofWrath, timeShift) and holyPower <=4 and MaxDps:TargetPercentHealth() < 0.2 then
+	if MaxDps:SpellAvailable(_HammerofWrath, timeShift) and holyPower <=4 and MaxDps:TargetPercentHealth() < 0.2 and MaxDps:TargetPercentHealth() > 0  then
 		return _HammerofWrath;
 	end
 		
