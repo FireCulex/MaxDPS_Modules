@@ -26,6 +26,7 @@ local Paladin = MaxDps:NewModule('Paladin');
 	local _HammerRight = 53595;
 	local _BlessedHammer = 204019;
 	local _ShieldRightous = 53600;
+	local _ConsecrationProtAura = 207603;
 	
 -- General
 
@@ -68,7 +69,7 @@ function Paladin:Protection(timeShift, currentSpell, gcd, talents)
 	end
 
 
-	if MaxDps:SpellAvailable(_HolyConsecration, timeShift) and not MaxDps:TargetAura(_HolyConsecrationAura, timeShift) then
+	if MaxDps:SpellAvailable(_HolyConsecration, timeShift) and not MaxDps:TargetAura(_HolyConsecrationAura, timeShift) and not MaxDps:Aura(_ConsecrationProtAura) then
 		return _HolyConsecration;
 	end
 	
