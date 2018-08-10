@@ -27,6 +27,7 @@ local Druid = MaxDps:NewModule('Druid');
 	local _Shred = 5221;
 	local _Bite = 22568;
 	local _Rip = 1079;
+	local _BearForm = 5487;
 	
 -- General
 
@@ -106,7 +107,6 @@ function Druid:Feral(timeShift, currentSpell, gcd, talents)
 		return _Shred;
 	end
 
-	
 end
 
 
@@ -114,30 +114,32 @@ function Druid:Guardian(timeShift, currentSpell, gcd, talents)
 
 	local rage = UnitPower('player', Enum.PowerType.Rage);
 	
-	if MaxDps:Aura(_GalacticGuard, timeShift) then
-		return _Moonfire;
-	end 
+	if MaxDps:Aura(_BearForm) then
+	
+		if MaxDps:Aura(_GalacticGuard, timeShift) then
+			return _Moonfire;
+		end 
 
-	if MaxDps:SpellAvailable(_Mangle, timeShift) then
-		return _Mangle;
-	end
+		if MaxDps:SpellAvailable(_Mangle, timeShift) then
+			return _Mangle;
+		end
 	
-	if MaxDps:SpellAvailable(_Thrash, timeShift) then
-		return _Thrash;
-	end
+		if MaxDps:SpellAvailable(_Thrash, timeShift) then
+			return _Thrash;
+		end
 	
-	if not MaxDps:TargetAura(_MoonfireTarget, timeShift) then
-		return _Moonfire;
-	end
+		if not MaxDps:TargetAura(_MoonfireTarget, timeShift) then
+			return _Moonfire;
+		end
 	
-	if rage >= 45 and MaxDps:SpellAvailable(_Maul, timeShift) then
-		return _Maul;
-	end
+		if rage >= 45 and MaxDps:SpellAvailable(_Maul, timeShift) then
+			return _Maul;
+		end
 	
-	if MaxDps:SpellAvailable(_Swipe, timeShift) then
-		return _Swipe;
+		if MaxDps:SpellAvailable(_Swipe, timeShift) then
+			return _Swipe;
+		end
 	end
-	
 	
 end
 
