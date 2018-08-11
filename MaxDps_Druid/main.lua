@@ -28,6 +28,8 @@ local Druid = MaxDps:NewModule('Druid');
 	local _Bite = 22568;
 	local _Rip = 1079;
 	local _BearForm = 5487;
+	local _CatForm = 768;
+	local _SavageRoar = 52610;
 	
 -- General
 
@@ -83,28 +85,36 @@ function Druid:Feral(timeShift, currentSpell, gcd, talents)
 	local energy = UnitPower('player', Enum.PowerType.Energy);
 	local cp = UnitPower('player', Enum.PowerType.ComboPoints);
 	
-	if energy >= 30 and talents[_Lunar_Insp] and not MaxDps:TargetAura(_Feral_Moonfire, timeShift) then
-		return _Feral_Moonfire;
-	end
+	if MaxDps:Aura(_CatForm) then 
 	
-	if energy >=35 and not MaxDps:TargetAura(_Rake_Dot, timeShift) then
-		return _Rake;
-	end
+		if energy >= 30 and talents[_Lunar_Insp] and not MaxDps:TargetAura(_Feral_Moonfire, timeShift) then
+			return _Feral_Moonfire;
+		end
 	
-	if energy >=25 and cp == 5 and MaxDps:SpellAvailable(_Bite, timeShift) and MaxDps:TargetPercentHealth() <= 0.25 then
-		return _Bite;
-	end
+		if energy >=35 and not MaxDps:TargetAura(_Rake_Dot, timeShift) then
+			return _Rake;
+		end
 	
-	if energy >=30 and cp == 5 and not MaxDps:TargetAura(_Rip, timeShift) and MaxDps:TargetPercentHealth() > 0.25 then
-		return _Rip;
-	end
+		if energy >=25 and cp == 5 and MaxDps:SpellAvailable(_Bite, timeShift) and MaxDps:TargetPercentHealth() <= 0.25 then
+			return _Bite;
+		end
 	
-	if energy >=25 and cp == 5 and MaxDps:SpellAvailable(_Bite, timeShift) then
-		return _Bite;
-	end
+		if talents[_SavageRoar] and energy >=30 and cp == 5 and MaxDps:SpellAvailable(_SavageRoar, timeShift) then
+			return _SavageRoar;
+		end
+		
+		if energy >=30 and cp == 5 and not MaxDps:TargetAura(_Rip, timeShift) and MaxDps:TargetPercentHealth() > 0.25 then
+			return _Rip;
+		end
 	
-	if energy >=40 and MaxDps:SpellAvailable(_Shred, timeShift) then
-		return _Shred;
+		if energy >=25 and cp == 5 and MaxDps:SpellAvailable(_Bite, timeShift) then
+			return _Bite;
+		end
+	
+		if energy >=40 and MaxDps:SpellAvailable(_Shred, timeShift) then
+			return _Shred;
+		end
+		
 	end
 
 end
