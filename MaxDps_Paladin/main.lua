@@ -26,7 +26,7 @@ local Paladin = MaxDps:NewModule('Paladin');
 	local _HammerRight = 53595;
 	local _BlessedHammer = 204019;
 	local _ShieldRightous = 53600;
-	local _ConsecrationProtAura = 207603;
+	local _ConsecrationProtAura = 188370;
 	
 -- General
 
